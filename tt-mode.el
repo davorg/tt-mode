@@ -24,6 +24,11 @@
 ;;
 ;; 
 ;; $Log$
+;; Revision 1.6  2004/01/30 12:32:50  dave
+;; Added (previously missing) FOR directive to list of keywords.
+;; Added support for TT comments.
+;; (Thanks to Sam Vilian for these fixes)
+;;
 ;; Revision 1.5  2002/06/16 10:01:24  dave
 ;; A final fix to the [% ... %] regex. It now seems to to everything
 ;; I want :)
@@ -47,7 +52,7 @@
 (defvar tt-mode-hook nil
   "List of functions to call when entering TT mode")
 
-(defvar tt-keywords "\\bGET\\b\\|\\bCALL\\b\\|\\bSET\\b\\|\\bDEFAULT\\b\\|\\bINSERT\\b\\|\\bINCLUDE\\b\\|\\bBLOCK\\b\\|\\bEND\\b\\|\\bPROCESS\\b\\|\\bWRAPPER\\b\\|\\bIF\\b\\|\\bUNLESS\\b\\|\\bELSIF\\b\\|\\bELSE\\b\\|\\bSWITCH\\b\\|\\bCASE\\b\\|\\bFOREACH\\b\\|\\bWHILE\\b\\|\\bFILTER\\b\\|\\bUSE\\b\\|\\bMACRO\\b\\|\\bPERL\\b\\|\\bRAWPERL\\b\\|\\bTRY\\b\\|\\bTHROW\\b\\|\\bCATCH\\b\\|\\bFINAL\\b\\|\\bLAST\\b\\|\\bRETURN\\b\\|\\bSTOP\\b\\|\\bCLEAR\\b\\|\\bMETA\\b\\|\\bTAGS")
+(defvar tt-keywords "\\bGET\\b\\|\\bCALL\\b\\|\\bSET\\b\\|\\bDEFAULT\\b\\|\\bINSERT\\b\\|\\bINCLUDE\\b\\|\\bBLOCK\\b\\|\\bEND\\b\\|\\bPROCESS\\b\\|\\bWRAPPER\\b\\|\\bIF\\b\\|\\bUNLESS\\b\\|\\bELSIF\\b\\|\\bELSE\\b\\|\\bSWITCH\\b\\|\\bCASE\\b\\|\\bFOR\\b\\|\\bFOREACH\\b\\|\\bWHILE\\b\\|\\bFILTER\\b\\|\\bUSE\\b\\|\\bMACRO\\b\\|\\bPERL\\b\\|\\bRAWPERL\\b\\|\\bTRY\\b\\|\\bTHROW\\b\\|\\bCATCH\\b\\|\\bFINAL\\b\\|\\bLAST\\b\\|\\bRETURN\\b\\|\\bSTOP\\b\\|\\bCLEAR\\b\\|\\bMETA\\b\\|\\bTAGS")
 
 (defvar tt-font-lock-keywords 
    (list
@@ -62,6 +67,8 @@
 	   tt-keywords 
 	   "\\)") 
 	  1 font-lock-keyword-face t)
+    '("\\[% *\\(#.*?\\)%\\]"
+      (1 font-lock-comment-face t))
     )
   "Expressions to font-lock in tt-mode.")
 
