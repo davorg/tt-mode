@@ -21,6 +21,9 @@
 ;; Something similar may well work for you.
 ;;
 ;; $Log$
+;; Revision 1.4  2002/06/15 20:00:13  dave
+;; Added list of TT keywords
+;;
 ;; Revision 1.3  2002/06/15 15:08:03  dave
 ;; Added a bit more complexity to the regex
 ;;
@@ -37,13 +40,21 @@
 (defvar tt-mode-hook nil
   "List of functions to call when entering TT mode")
 
+(defvar tt-keywords "\\bGET\\b\\|\\bCALL\\b\\|\\bSET\\b\\|\\bDEFAULT\\b\\|\\bINSERT\\b\\|\\bINCLUDE\\b\\|\\bBLOCK\\b\\|\\bEND\\b\\|\\bPROCESS\\b\\|\\bWRAPPER\\b\\|\\bIF\\b\\|\\bUNLESS\\b\\|\\bELSIF\\b\\|\\bELSE\\b\\|\\bSWITCH\\b\\|\\bCASE\\b\\|\\bFOREACH\\b\\|\\bWHILE\\b\\|\\bFILTER\\b\\|\\bUSE\\b\\|\\bMACRO\\b\\|\\bPERL\\b\\|\\bRAWPERL\\b\\|\\bTRY\\b\\|\\bTHROW\\b\\|\\bCATCH\\b\\|\\bFINAL\\b\\|\\bLAST\\b\\|\\bRETURN\\b\\|\\bSTOP\\b\\|\\bCLEAR\\b\\|\\bMETA\\b\\|\\bTAGS")
+
 (defvar tt-font-lock-keywords 
    (list
     ;; Fontify [& ... &] expressions
     '("\\(\\[%[-+]?\\)\\([^%]+\\)\\([-+]?%\\]\\)"  
-        (1 font-lock-keyword-face t)
-        (2 font-lock-variable-name-face t)
-        (3 font-lock-keyword-face t))
+      (1 font-lock-string-face t)
+      (2 font-lock-variable-name-face t)
+      (3 font-lock-string-face t))
+    ;; Look for keywords within those expressions
+    (list (concat
+	   "\\[%[-+]? *\\("
+	   tt-keywords 
+	   "\\)") 
+	  1 font-lock-keyword-face t)
     )
   "Expressions to font-lock in tt-mode.")
 
@@ -65,3 +76,5 @@
   (run-hooks tt-mode-hook))
 
 (provide 'tt-mode)
+
+;; tt-mode.el ends here
