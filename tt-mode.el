@@ -15,12 +15,19 @@
 ;; (setq load-path
 ;;      (cons "/home/dave/xemacs" load-path))
 ;; (autoload 'tt-mode "tt-mode")
-;;(setq auto-mode-alist
+;; (setq auto-mode-alist
 ;;  (append '(("\\.tt$" . tt-mode))  auto-mode-alist ))
 ;;
 ;; Something similar may well work for you.
 ;;
+;; Author: Dave Cross <dave@dave.org.uk>
+;;
+;; 
 ;; $Log$
+;; Revision 1.5  2002/06/16 10:01:24  dave
+;; A final fix to the [% ... %] regex. It now seems to to everything
+;; I want :)
+;;
 ;; Revision 1.4  2002/06/15 20:00:13  dave
 ;; Added list of TT keywords
 ;;
@@ -45,7 +52,7 @@
 (defvar tt-font-lock-keywords 
    (list
     ;; Fontify [& ... &] expressions
-    '("\\(\\[%[-+]?\\)\\([^%]+\\)\\([-+]?%\\]\\)"  
+    '("\\(\\[%[-+]?\\)\\(.+?\\)\\([-+]?%\\]\\)"  
       (1 font-lock-string-face t)
       (2 font-lock-variable-name-face t)
       (3 font-lock-string-face t))
