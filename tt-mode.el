@@ -21,8 +21,11 @@
 ;; Something similar may well work for you.
 ;;
 ;; $Log$
-;; Revision 1.1  2002/06/15 13:51:56  dave
-;; Initial revision
+;; Revision 1.2  2002/06/15 14:35:26  dave
+;; Improved regex to match [% ... %]
+;;
+;; Revision 1.1.1.1  2002/06/15 13:51:56  dave
+;; Initial Version
 ;;
 ;;
 
@@ -34,7 +37,7 @@
 (defvar tt-font-lock-keywords 
    (list
     ;; Fontify [& ... &] expressions
-    '("\\(\\[%.*%\\]\\)"  1 font-lock-keyword-face t)
+    '("\\(\\[%[^%]+%\\]\\)"  1 font-lock-keyword-face t)
     )
   "Expressions to font-lock in tt-mode.")
 
