@@ -24,6 +24,9 @@
 ;;
 ;; 
 ;; $Log$
+;; Revision 1.7  2005/09/28 06:33:28  dave
+;; More fixes from Sam Vilain.
+;;
 ;; Revision 1.6  2004/01/30 12:32:50  dave
 ;; Added (previously missing) FOR directive to list of keywords.
 ;; Added support for TT comments.
@@ -52,23 +55,25 @@
 (defvar tt-mode-hook nil
   "List of functions to call when entering TT mode")
 
-(defvar tt-keywords "\\bGET\\b\\|\\bCALL\\b\\|\\bSET\\b\\|\\bDEFAULT\\b\\|\\bINSERT\\b\\|\\bINCLUDE\\b\\|\\bBLOCK\\b\\|\\bEND\\b\\|\\bPROCESS\\b\\|\\bWRAPPER\\b\\|\\bIF\\b\\|\\bUNLESS\\b\\|\\bELSIF\\b\\|\\bELSE\\b\\|\\bSWITCH\\b\\|\\bCASE\\b\\|\\bFOR\\b\\|\\bFOREACH\\b\\|\\bWHILE\\b\\|\\bFILTER\\b\\|\\bUSE\\b\\|\\bMACRO\\b\\|\\bPERL\\b\\|\\bRAWPERL\\b\\|\\bTRY\\b\\|\\bTHROW\\b\\|\\bCATCH\\b\\|\\bFINAL\\b\\|\\bLAST\\b\\|\\bRETURN\\b\\|\\bSTOP\\b\\|\\bCLEAR\\b\\|\\bMETA\\b\\|\\bTAGS")
+(defvar tt-keywords "\\bGET\\b\\|\\bCALL\\b\\|\\bLET\\b\\|\\bSET\\b\\|\\bDEFAULT\\b\\|\\bINSERT\\b\\|\\bINCLUDE\\b\\|\\bBLOCK\\b\\|\\bEND\\b\\|\\bPROCESS\\b\\|\\bWRAPPER\\b\\|\\bIF\\b\\|\\bUNLESS\\b\\|\\bELSIF\\b\\|\\bELSE\\b\\|\\bSWITCH\\b\\|\\bCASE\\b\\|\\bFOR\\b\\|\\bFOREACH\\b\\|\\bWHILE\\b\\|\\bFILTER\\b\\|\\bUSE\\b\\|\\bMACRO\\b\\|\\bPERL\\b\\|\\bRAWPERL\\b\\|\\bTRY\\b\\|\\bTHROW\\b\\|\\bCATCH\\b\\|\\bFINAL\\b\\|\\bLAST\\b\\|\\bRETURN\\b\\|\\bSTOP\\b\\|\\bCLEAR\\b\\|\\bMETA\\b\\|\\bTAGS")
 
 (defvar tt-font-lock-keywords 
    (list
     ;; Fontify [& ... &] expressions
-    '("\\(\\[%[-+]?\\)\\(.+?\\)\\([-+]?%\\]\\)"  
+    '("\\(\\[%[-+]?\\)\\(\\(.\\|\n\\)+?\\)\\([-+]?%\\]\\)"  
       (1 font-lock-string-face t)
       (2 font-lock-variable-name-face t)
-      (3 font-lock-string-face t))
+      (4 font-lock-string-face t))
     ;; Look for keywords within those expressions
-    (list (concat
-	   "\\[%[-+]? *\\("
-	   tt-keywords 
-	   "\\)") 
-	  1 font-lock-keyword-face t)
     '("\\[% *\\(#.*?\\)%\\]"
       (1 font-lock-comment-face t))
+    '("\\[% *\\([a-z_0-9]*\\) *%\\]"
+      (1 font-lock-constant-face t))
+    (list (concat
+	   "\\(\\[%[-+]?\\|;\\)[ \n	]*\\("
+	   tt-keywords 
+	   "\\)") 
+	  2 font-lock-keyword-face t)
     )
   "Expressions to font-lock in tt-mode.")
 
