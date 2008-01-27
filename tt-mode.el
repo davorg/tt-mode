@@ -21,34 +21,6 @@
 ;; Something similar may well work for you.
 ;;
 ;; Author: Dave Cross <dave@dave.org.uk>
-;;
-;;
-;; $Log$
-;; Revision 1.7  2005/09/28 06:33:28  dave
-;; More fixes from Sam Vilain.
-;;
-;; Revision 1.6  2004/01/30 12:32:50  dave
-;; Added (previously missing) FOR directive to list of keywords.
-;; Added support for TT comments.
-;; (Thanks to Sam Vilian for these fixes)
-;;
-;; Revision 1.5  2002/06/16 10:01:24  dave
-;; A final fix to the [% ... %] regex. It now seems to to everything
-;; I want :)
-;;
-;; Revision 1.4  2002/06/15 20:00:13  dave
-;; Added list of TT keywords
-;;
-;; Revision 1.3  2002/06/15 15:08:03  dave
-;; Added a bit more complexity to the regex
-;;
-;; Revision 1.2  2002/06/15 14:35:26  dave
-;; Improved regex to match [% ... %]
-;;
-;; Revision 1.1.1.1  2002/06/15 13:51:56  dave
-;; Initial Version
-;;
-;;
 
 (require 'font-lock)
 
