@@ -1,0 +1,12 @@
+[% IF blah %]
+
+[% test ]
+
+[% test %] and [% test %]
+
+[% test % test %]
+
+[%+ test -%]
+
+[% BLOCK %]
+
