@@ -41,23 +41,32 @@
    (list
     ;; Fontify [& ... &] expressions
     '("\\(\\[%[-+]?\\)\\(\\(.\\|\n\\)+?\\)\\([-+]?%\\]\\)"
-      (1 font-lock-string-face t)
+      (1 font-lock-builtin-face t)
       (2 font-lock-variable-name-face t)
-      (4 font-lock-string-face t))
-    ;; Look for keywords within those expressions
-    '("\\[% *\\(#.*?\\)%\\]"
-      (1 font-lock-comment-face t))
+      (4 font-lock-builtin-face t))
+
     '("\\[% *\\([a-z_0-9]*\\) *%\\]"
       (1 font-lock-constant-face t))
+
+    ;;line comment - doesn't find multiple comments in a block yet.
+    '("\\[%\\(.\\|\n\\)+?\\(#.*?\\)\\(\n\\|%\\]\\)"
+      (2 font-lock-comment-face t))
+
+    ;;block comment
+    '("\\[%\\(#\\(.\\|\n\\)*?\\)%\\]"
+      (1 font-lock-comment-face t))
+
+    ;; Look for keywords within those expressions
     (list (concat
 	   "\\(\\[%[-+]?\\|;\\)[ \n	]*\\("
 	   tt-keywords
 	   "\\)")
 	  2 font-lock-keyword-face t)
     )
+
   "Expressions to font-lock in tt-mode.")
 
-;;single quote strings should highlight the same as double-quote
+;;single quote strings should highlight the same as double quote
 (defvar tt-mode-syntax-table
   (let ((table (make-syntax-table)))
     (modify-syntax-entry ?' "\"" table)
