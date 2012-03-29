@@ -58,10 +58,10 @@
 
     ;; Look for keywords within those expressions
     (list (concat
-	   "\\(\\[%[-+]?\\|;\\)[ \n	]*\\("
+	   "\\(\\[%[-+]?\\|;\\)\\(\\s-\\|\n\\)*\\("
 	   tt-keywords
 	   "\\)")
-	  2 font-lock-keyword-face t)
+	  3 font-lock-keyword-face t)
     )
 
   "Expressions to font-lock in tt-mode.")
@@ -70,6 +70,7 @@
 (defvar tt-mode-syntax-table
   (let ((table (make-syntax-table)))
     (modify-syntax-entry ?' "\"" table)
+    (modify-syntax-entry ?% "." table)
     table))
 
 (defun tt-mode ()
