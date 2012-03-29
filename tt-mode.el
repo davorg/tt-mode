@@ -57,12 +57,21 @@
     )
   "Expressions to font-lock in tt-mode.")
 
+;;single quote strings should highlight the same as double-quote
+(defvar tt-mode-syntax-table
+  (let ((table (make-syntax-table)))
+    (modify-syntax-entry ?' "\"" table)
+    table))
+
 (defun tt-mode ()
   "Major mode for editing Template Toolkit files"
   (interactive)
   (kill-all-local-variables)
-  (setq major-mode 'tt-mode)
-  (setq mode-name "TT")
+  (setq major-mode 'tt-mode
+	mode-name "TT")
+
+  (set-syntax-table tt-mode-syntax-table)
+
   (if (string-match "Xemacs" emacs-version)
       (progn
 	(make-local-variable 'font-lock-keywords)
@@ -71,7 +80,7 @@
     (make-local-variable 'font-lock-defaults)
     (setq font-lock-defaults '(tt-font-lock-keywords nil t))
     )
-  (font-lock-mode)
+  (font-lock-mode t)
   (run-mode-hooks 'tt-mode-hook))
 
 (provide 'tt-mode)
