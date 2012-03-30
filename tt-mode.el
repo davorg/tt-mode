@@ -21,6 +21,9 @@
 ;; Something similar may well work for you.
 ;;
 ;; Author: Dave Cross <dave@dave.org.uk>
+;;
+;;         Some enhancements by Steve Sanbeg
+;;
 
 (require 'font-lock)
 
@@ -41,28 +44,47 @@
    (list
     ;; Fontify [& ... &] expressions
     '("\\(\\[%[-+]?\\)\\(\\(.\\|\n\\)+?\\)\\([-+]?%\\]\\)"
-      (1 font-lock-string-face t)
+      (1 font-lock-builtin-face t)
       (2 font-lock-variable-name-face t)
-      (4 font-lock-string-face t))
-    ;; Look for keywords within those expressions
-    '("\\[% *\\(#.*?\\)%\\]"
-      (1 font-lock-comment-face t))
+      (4 font-lock-builtin-face t))
+
     '("\\[% *\\([a-z_0-9]*\\) *%\\]"
       (1 font-lock-constant-face t))
+
+    ;;line comment - doesn't find multiple comments in a block yet.
+    '("\\[%\\(.\\|\n\\)+?\\(#.*?\\)\\(\n\\|%\\]\\)"
+      (2 font-lock-comment-face t))
+
+    ;;block comment
+    '("\\[%\\(#\\(.\\|\n\\)*?\\)%\\]"
+      (1 font-lock-comment-face t))
+
+    ;; Look for keywords within those expressions
     (list (concat
-	   "\\(\\[%[-+]?\\|;\\)[ \n	]*\\("
+	   "\\(\\[%[-+]?\\|;\\)\\(\\s-\\|\n\\)*\\("
 	   tt-keywords
 	   "\\)")
-	  2 font-lock-keyword-face t)
+	  3 font-lock-keyword-face t)
     )
+
   "Expressions to font-lock in tt-mode.")
+
+;;single quote strings should highlight the same as double quote
+(defvar tt-mode-syntax-table
+  (let ((table (make-syntax-table)))
+    (modify-syntax-entry ?' "\"" table)
+    (modify-syntax-entry ?% "." table)
+    table))
 
 (defun tt-mode ()
   "Major mode for editing Template Toolkit files"
   (interactive)
   (kill-all-local-variables)
-  (setq major-mode 'tt-mode)
-  (setq mode-name "TT")
+  (setq major-mode 'tt-mode
+	mode-name "TT")
+
+  (set-syntax-table tt-mode-syntax-table)
+
   (if (string-match "Xemacs" emacs-version)
       (progn
 	(make-local-variable 'font-lock-keywords)
@@ -71,7 +93,7 @@
     (make-local-variable 'font-lock-defaults)
     (setq font-lock-defaults '(tt-font-lock-keywords nil t))
     )
-  (font-lock-mode)
+  (font-lock-mode t)
   (run-mode-hooks 'tt-mode-hook))
 
 (provide 'tt-mode)
