@@ -1,0 +1,36 @@
+[% IF blah %]
+'blah'
+[% test ]
+
+[% test %] and [% test %]
+
+[% test % test %]
+
+[%+ test -%]
+
+[% BLOCK %]
+
+[% INCLUDE header
+     title = 'Hello World' 
+     bgcol = '#ffffff' 
+%]
+
+[%INCLUDE menu align='right'%]
+
+Name: [% name %]  ([%id%])
+
+[% #this is a comment %]
+
+[%# this entire directive is ignored no
+    matter how many lines it wraps onto
+%]
+
+
+[% # this is a comment
+   theta = 20      # so is this
+   rho   = 30      # <aol>me too!</aol>
+%]
+
+[% 
+   x=1 #set x to 1
+%]
