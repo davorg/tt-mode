@@ -21,6 +21,9 @@
 ;; Something similar may well work for you.
 ;;
 ;; Author: Dave Cross <dave@dave.org.uk>
+;;
+;;         Some enhancements by Steve Sanbeg
+;;
 
 (require 'font-lock)
 
