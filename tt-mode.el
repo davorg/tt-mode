@@ -1,4 +1,4 @@
-;; tt-mode.el --- Emacs major mode for editing Template Toolkit files
+;;; tt-mode.el --- Emacs major mode for editing Template Toolkit files.
 ;;
 ;; Copyright (c) 2002 Dave Cross, all rights reserved.
 ;;
@@ -76,6 +76,7 @@
     (modify-syntax-entry ?% "." table)
     table))
 
+;;;###autoload
 (defun tt-mode ()
   "Major mode for editing Template Toolkit files"
   (interactive)
@@ -96,6 +97,9 @@
   (font-lock-mode t)
   (run-mode-hooks 'tt-mode-hook))
 
+;;;###autoload
+(add-to-list 'auto-mode-alist '("\\.tt\\'" . tt-mode))
+
 (provide 'tt-mode)
 
-;; tt-mode.el ends here
+;;; tt-mode.el ends here
