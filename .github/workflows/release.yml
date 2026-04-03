@@ -40,6 +40,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Verify version matches tag
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          EL_VERSION=$(awk '/^;; Version:/ {print $3}' tt-mode.el)
+          if [ "$TAG_VERSION" != "$EL_VERSION" ]; then
+            echo "Version mismatch: tag is '$TAG_VERSION' but tt-mode.el says '$EL_VERSION'"
+            exit 1
+          fi
+          echo "Version check passed: $EL_VERSION"
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
