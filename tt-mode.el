@@ -4,7 +4,7 @@
 
 ;; Author: Dave Cross <dave@dave.org.uk>
 ;;         Some enhancements by Steve Sanbeg
-;; Version: 1.1.0
+;; Version: 1.2.0
 ;; Keywords: languages
 ;; URL: https://github.com/davorg/tt-mode
 ;; Package-Requires: ((emacs "24.1"))
@@ -48,8 +48,10 @@
      (1 font-lock-constant-face t))
 
    ;; Line comment - doesn't find multiple comments in a block yet.
-   '("\\[%\\(.\\|\n\\)+?\\(#.*?\\)\\(\n\\|%\\]\\)"
-     (2 font-lock-comment-face t))
+   ;; Use (?:[^%]|%[^]]) to avoid crossing %] block boundaries (prevents
+   ;; href="#" in HTML from being misidentified as a comment).
+   '("\\[%\\(?:[^%]\\|%[^]]\\)*?\\(#.*?\\)\\(?:\n\\|%\\]\\)"
+     (1 font-lock-comment-face t))
 
    ;; Block comment
    '("\\[%\\(#\\(.\\|\n\\)*?\\)%\\]"

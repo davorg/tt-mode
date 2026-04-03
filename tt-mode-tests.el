@@ -64,4 +64,30 @@
   (should (listp tt-font-lock-keywords))
   (should (> (length tt-font-lock-keywords) 0)))
 
+(defun tt-mode-test--face-at-string (content search-string)
+  "Return the face at the start of SEARCH-STRING within CONTENT in tt-mode."
+  (with-temp-buffer
+    (insert content)
+    (tt-mode)
+    (font-lock-ensure)
+    (goto-char (point-min))
+    (search-forward search-string)
+    (get-text-property (match-beginning 0) 'face)))
+
+(ert-deftest tt-mode-test-href-hash-not-comment ()
+  "Test that href=\"#\" in HTML is not highlighted as a comment.
+Regression test: the line comment regex must not span across TT block
+boundaries (i.e. across %]) and incorrectly match # in HTML attributes."
+  (let ((face (tt-mode-test--face-at-string
+               "[% IF condition %]\n<a href=\"#\">link</a>\n"
+               "#")))
+    (should-not (eq face 'font-lock-comment-face))))
+
+(ert-deftest tt-mode-test-line-comment-in-directive ()
+  "Test that a # comment inside a TT directive is highlighted as a comment."
+  (let ((face (tt-mode-test--face-at-string
+               "[% x = 1 # this is a comment\n%]"
+               "# this is a comment")))
+    (should (eq face 'font-lock-comment-face))))
+
 ;;; tt-mode-tests.el ends here
