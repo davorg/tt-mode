@@ -1,0 +1,67 @@
+;;; tt-mode-tests.el --- ERT tests for tt-mode  -*- lexical-binding: t; -*-
+
+;; Copyright (C) 2024 Dave Cross, all rights reserved.
+
+;; This file may be distributed under the same terms as GNU Emacs.
+
+;;; Commentary:
+
+;; ERT (Emacs Lisp Regression Testing) tests for tt-mode.
+;; Run with: emacs --batch -l tt-mode-tests.el -f ert-run-tests-batch-and-exit
+
+;;; Code:
+
+(require 'ert)
+(require 'tt-mode)
+
+(ert-deftest tt-mode-test-activates ()
+  "Test that `tt-mode' can be activated and sets `major-mode'."
+  (with-temp-buffer
+    (tt-mode)
+    (should (eq major-mode 'tt-mode))))
+
+(ert-deftest tt-mode-test-mode-name ()
+  "Test that `tt-mode' sets `mode-name' to \"TT\"."
+  (with-temp-buffer
+    (tt-mode)
+    (should (equal mode-name "TT"))))
+
+(ert-deftest tt-mode-test-font-lock-defaults ()
+  "Test that `font-lock-defaults' is set correctly."
+  (with-temp-buffer
+    (tt-mode)
+    (should (equal (car font-lock-defaults) 'tt-font-lock-keywords))))
+
+(ert-deftest tt-mode-test-hook-runs ()
+  "Test that `tt-mode-hook' is run when the mode is activated."
+  (let* ((hook-ran nil)
+         (test-hook (lambda () (setq hook-ran t))))
+    (add-hook 'tt-mode-hook test-hook)
+    (unwind-protect
+        (with-temp-buffer
+          (tt-mode)
+          (should hook-ran))
+      (remove-hook 'tt-mode-hook test-hook))))
+
+(ert-deftest tt-mode-test-auto-mode-alist ()
+  "Test that `.tt' files are associated with `tt-mode'."
+  (should (rassq 'tt-mode auto-mode-alist)))
+
+(ert-deftest tt-mode-test-syntax-table-single-quote ()
+  "Test that single quotes are treated as string delimiters."
+  (with-temp-buffer
+    (tt-mode)
+    ;; Single quote should have string syntax (class 7 = string quote)
+    (should (= (char-syntax ?') ?\"))))
+
+(ert-deftest tt-mode-test-keywords-not-empty ()
+  "Test that the TT keywords regexp is non-empty."
+  (should (stringp tt-keywords))
+  (should (> (length tt-keywords) 0)))
+
+(ert-deftest tt-mode-test-font-lock-keywords-not-empty ()
+  "Test that `tt-font-lock-keywords' contains entries."
+  (should (listp tt-font-lock-keywords))
+  (should (> (length tt-font-lock-keywords) 0)))
+
+;;; tt-mode-tests.el ends here
