@@ -4,7 +4,7 @@
 
 ;; Author: Dave Cross <dave@dave.org.uk>
 ;;         Some enhancements by Steve Sanbeg
-;; Version: 1.1.0
+;; Version: 1.2.0
 ;; Keywords: languages
 ;; URL: https://github.com/davorg/tt-mode
 ;; Package-Requires: ((emacs "24.1"))
