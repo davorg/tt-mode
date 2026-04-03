@@ -1,5 +1,6 @@
 # tt-mode
 
+[![Static Badge](https://img.shields.io/badge/github-repo-blue?logo=github)](https://github.com/davorg/tt-mode)
 [![MELPA](https://melpa.org/packages/tt-mode-badge.svg)](https://melpa.org/#/tt-mode)
 [![License: GPL](https://img.shields.io/badge/License-GPL-blue.svg)](https://www.gnu.org/copyleft/gpl.html)
 
