@@ -1,0 +1,47 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        emacs-version:
+          - '27.1'
+          - '28.1'
+          - '29.1'
+          - 'snapshot'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: purcell/setup-emacs@master
+        with:
+          version: ${{ matrix.emacs-version }}
+
+      - name: Byte compile
+        run: emacs --batch -f batch-byte-compile tt-mode.el
+
+      - name: Run tests
+        run: emacs --batch -L . -l tt-mode-tests.el -f ert-run-tests-batch-and-exit
+
+  release:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: tt-mode.el
+          generate_release_notes: true
