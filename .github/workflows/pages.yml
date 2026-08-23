@@ -26,6 +26,7 @@ jobs:
         with:
           readme: README.md
           output: _site/index.html
+          google_analytics: G-YJCYWQFHGB
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
